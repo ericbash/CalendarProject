@@ -24,7 +24,7 @@ Public Class AlertForm
 
     Public Sub AlertForm_Load(sender As Object, e As EventArgs)
         'Get on call user
-        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader("P:\PR15600\Support\OnCall.txt")
+        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader("uploadFile.txt")
         Dim line As String = reader.ReadLine()
         onCallUser = line.Substring(line.IndexOf(",") + 1)
 
@@ -40,9 +40,6 @@ Public Class AlertForm
         'These are the three filters for finding events for users
         Dim filterCal = "@SQL=" & Chr(34) & "http://schemas.microsoft.com/mapi/proptag/0x0037001E" & Chr(34) & " ci_phrasematch " & "'" & calendarName & "'" ' This looks like you could change it but it will break if you do.
         Dim filterLog = Chr(34) & "http://schemas.microsoft.com/mapi/proptag/0x0037001E" & Chr(34) & " ci_phrasematch " & "'" & loginName & "'"
-        Dim filter1111 = Chr(34) & "http://schemas.microsoft.com/mapi/proptag/0x0037001E" & Chr(34) & " ci_phrasematch " & "'x1111'"
-        'This will get all events with the names of the user but exclude the on call x1111 weekly event
-        restrictedcalendarItemsByName = (PickUserForm.restrictedcalendarItemsByDate.Restrict(filterCal & " Or " & filterLog & " And Not " & filter1111))
 
         'Add all events for users in the list to display
         counter = 0
@@ -72,9 +69,9 @@ Public Class AlertForm
     Private Sub Confirm_Click(sender As Object, e As EventArgs) Handles Confirm.Click
         If CheckedListBox1.CheckedIndices.Count > 0 Then    'Check if any events are checked
             'Get users excel file
-            Dim fileName As String = "P:\PR15600\Support\EmployeeDefinitions\" & loginName & "SupportHours.csv"
+            Dim fileName As String = "on-callFile.csv"
             File.Delete(fileName)
-            File.Copy("P:\PR15600\Support\EmployeeDefinitions-Reset\" & loginName & "SupportHours.csv", fileName)
+            File.Copy("originFile")
             xlWorkbook = PickUserForm.xlApp.Workbooks.Open(fileName)
             xWorksheet = xlWorkbook.Sheets(1)
             xlRange = xWorksheet.Range("B5:H52")
