@@ -10,7 +10,7 @@ Public Class PickUserForm
 
     Dim otkApp As Outlook.Application = New Outlook.Application 'Open outlook in background
     Dim otkNameSpace As Outlook.NameSpace = otkApp.GetNamespace("MAPI") 'This is needed. Not sure why
-    Dim calendar As Outlook.MAPIFolder = otkNameSpace.Folders("SharePoint Lists").Folders("IT Section - IT Vacation Calendar") 'Get calendar info in ost file
+    Dim calendar As Outlook.MAPIFolder = otkNameSpace.Folders("CalendarName") 'Get calendar info in ost file
     Dim calendarItems As Outlook.Items = calendar.Items                 'Get all events from calendar
     Public restrictedcalendarItemsByDate As Outlook.Items               'This will be used as a container for events that take place this week
 
@@ -23,7 +23,7 @@ Public Class PickUserForm
     Private Sub PickUser_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "Choose what users you would like to edit"
 
-        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader("P:\PR15600\Support\Calendar\it_users.txt")  'Read txt file of it users 
+        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader("uploadFile.txt")  'Read txt file of it users 
         reader.ReadLine()                           'skip headers
 
         While Not reader.EndOfStream                'Read until end of file
